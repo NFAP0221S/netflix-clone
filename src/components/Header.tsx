@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { BellIcon, SearchIcon } from "@heroicons/react/solid";
 
 export default function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // 스크롤 이벤트 발생 시 작동
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <header>
+    <header className={`${isScrolled && "bg-[#141414]"}`}>
       <div className="flex items-center space-x-2 md:space-x-10">
         <img
           className="cursor-pointer object-contain"
