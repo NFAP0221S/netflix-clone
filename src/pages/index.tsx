@@ -11,7 +11,6 @@ const Home: NextPage = () => {
         <title>Home - Netflix</title>
         <link rel="icon" href="" />
       </Head>
-      build netflix gogo!
       <Header />
       <main>
         {/* Banner */}
