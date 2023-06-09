@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Movie } from "../../globals";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import Thumbnail from "./Thumbnail";
@@ -11,6 +11,26 @@ interface Props {
 }
 
 function Row({ title, movies }: Props) {
+  const rowRef = useRef<HTMLDivElement>(null);
+  const [isMoved, setIsMoved] = useState(false);
+
+  const handleClick = (direction: string) => {
+    // 슬라이드 무빙 체크
+    setIsMoved(true);
+
+    if (rowRef.current) {
+      const { scrollLeft, clientWidth } = rowRef.current;
+
+      // 스크롤 할 위치 결정
+      const scrollTo =
+        direction === "left"
+          ? scrollLeft - clientWidth
+          : scrollLeft + clientWidth;
+
+      rowRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="h-40 space-y-0.5 md:space-y-2">
       <h2
@@ -20,8 +40,15 @@ function Row({ title, movies }: Props) {
         {title}
       </h2>
       <div className="group relative md:-ml-2">
-        <ChevronLeftIcon className="absolute top-0 bottom-0 left-2 z-40 m-auto h-9 w-9 cursor-pointer opacity-0 transition hover:scale-125 group-hover:opacity-100" />
-        <div className="flex items-center space-x-0.5 overflow-x-scroll scrollbar-hide md:space-x-2.5 md:p-2">
+        <ChevronLeftIcon
+          className="absolute top-0 bottom-0 left-2 z-40 m-auto h-9 w-9 cursor-pointer opacity-0 transition hover:scale-125 group-hover:opacity-100"
+          onClick={() => handleClick("left")}
+        />
+
+        <div
+          ref={rowRef}
+          className="flex items-center space-x-0.5 overflow-x-scroll scrollbar-hide md:space-x-2.5 md:p-2"
+        >
           {movies.map((movie) => (
             <Thumbnail key={movie.id} movie={movie} />
           ))}
@@ -29,6 +56,7 @@ function Row({ title, movies }: Props) {
         <ChevronRightIcon
           className="absolute top-0 bottom-0 left-2 z-40 m-auto h-9 w-9
         cursor-pointer opacity-0 transition hover:scale-125 group-hover:opacity-100"
+          onClick={() => handleClick("right")}
         />
       </div>
     </div>
