@@ -26,7 +26,8 @@ export default function Header() {
     <header className={`${isScrolled && "bg-[#141414]"}`}>
       <div className="flex items-center space-x-2 md:space-x-10">
         <img
-          src="https://rb.gy/ulxxee"
+          // src="https://rb.gy/ulxxee"
+          src="https://miro.medium.com/v2/resize:fit:4800/format:webp/1*9bgQ1OZV17clW4Fupc8xOw.png"
           width={100}
           height={100}
           className="cursor-pointer object-contain"
