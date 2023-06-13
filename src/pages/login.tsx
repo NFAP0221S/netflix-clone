@@ -1,8 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 function login() {
+  const [login, setLogin] = useState(false);
+
   return (
     <div
       className="relative flex h-screen w-screen flex-col bg-black md:items-center
