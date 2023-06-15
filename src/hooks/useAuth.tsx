@@ -42,6 +42,26 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [initialLoading, setInitialLoading] = useState(true);
   const router = useRouter();
 
+  // Persisting the user
+  useEffect(
+    () =>
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // Logged in...
+          setUser(user);
+          setLoading(false);
+        } else {
+          // Not logged in...
+          setUser(null);
+          setLoading(true);
+          router.push("/login");
+        }
+
+        setInitialLoading(false);
+      }),
+    [auth]
+  );
+
   // 회원가입
   const signUp = async (email: string, password: string) => {
     setLoading(true);
